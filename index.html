@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Farming Clicker</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
+
+<script type="text/javascript" src="game.js"></script>
+</head>
+
+<body>
+<div class="navigation" id="nav">
+<button id="farm_button" class="nav_button_active" onclick="switch_place('farm')">Farm</button>
+<button class="nav_button" style="display: none;">Dungeon</button>  
+</div>
+
+<div id="farm_page" class="page">
+
+<div class="farm_section" id="corn_section">
+<img src="Content/corn_plant.png" style="width: 75px"> <wrap>X</wrap> <wrap id="corn_plant_n">0</wrap> <img src="Content/corn.png" style="padding-left: 200px; width: 75px"> <wrap>X</wrap> <wrap id="corn_n">0</wrap> <img src="Content/corn_med.png" style="padding-left: 100px; width: 75px"> <wrap>X</wrap> <wrap id="corn_med">0</wrap> <img src="Content/corn_high.png" style="padding-left: 100px; width: 75px"> <wrap>X</wrap> <wrap id="corn_high">0</wrap>
+</div>
+
+<div class="farm_section" id="tomato_section">
+<img src="Content/tomato_plant.png" style="width: 75px"> <wrap>X</wrap> <wrap id="tomato_plant_n">0</wrap> <img src="Content/tomato.png" style="padding-left: 200px; width: 75px"> <wrap>X</wrap> <wrap id="tomato_n">0</wrap> <img src="Content/tomato_med.png" style="padding-left: 100px; width: 75px"> <wrap>X</wrap> <wrap id="tomato_med">0</wrap> <img src="Content/tomato_high.png" style="padding-left: 100px; width: 75px"> <wrap>X</wrap> <wrap id="tomato_high">0</wrap>
+</div>
+
+</div>
+
+<div id="map_page" class="page" style="display: none; text-align: center;">
+<br>
+<p>Where would you like to go?</p>
+<br>
+<br>
+<button class="nav_button" onclick="switch_place('shop')">Shop</button> &nbsp; <button id="orchard_button" style="display: none;" class="nav_button" onclick="switch_place('orchard')">Orchard</button>
+</div>
+
+
+<div id="shop_page" class="page" style="display: none;">
+
+<div id="shop_start" style="text-align: center;">
+<br>
+<img src="Content/shopkeeper.png">
+<br>
+<p>Hello fellow farmer!</p>
+<br>
+<p>What would you like to do?:</p>
+<br>
+<button class="nav_button" onclick="shop_buy()">Buy</button>&nbsp;&nbsp;<button class="nav_button" onclick="shop_sell()">Sell</button>
+
+</div>
+
+<div id="shop_buy" class="page" style="display: none;">
+&nbsp; &nbsp; <button class="nav_button" onclick="back_to_start()">Back</button>
+<br><br><br><br>
+
+<div class="veggie_div" onclick="buy(1,'corn')" data-title="Corn seeds, when ripe yields 5 corns. Grows in 10s."><img src="Content/corn_seeds.png" style="width: 100px;"><br> <p>1$</p></div>
+
+<div id="tomato_buy" style="display: none;" class="veggie_div" onclick="buy(2,'tomato')" data-title="Tomato seeds, when ripe yields 7.5 tomatoes. Grows in 15s."><img src="Content/tomato_seeds.png" style="width: 100px;"><br> <p>2$</p></div>
+
+</div>
+
+<div id="shop_sell" class="page" style="display: none;">
+&nbsp; &nbsp; <button class="nav_button" onclick="back_to_start()">Back</button>
+<br><br><br><br>
+
+<div class="veggie_div" onclick="sell(0.25,'corn')"><img src="Content/corn.png" style="width: 100px;"><br> <p>0.25$</p></div>
+
+<div id="tomato_sell" style="display: none;" class="veggie_div" onclick="sell(0.3,'tomato')"><img src="Content/tomato.png" style="width: 100px;"><br> <p>0.3$</p></div>
+
+</div>
+
+</div>
+
+<div id="orchard_page" class="page" style="display: none;">
+
+<div class="farm_section">
+<img src="Content/sapling.png">
+</div>
+
+</div>
+
+<div id="inventory">
+<br>
+<wrap>Score: </wrap> <wrap id="score_n">0</wrap>
+<br><br>
+<wrap>Money: </wrap> <wrap id="money_n">0</wrap><wrap>$ </wrap>
+<br>
+<p id="map" data-title="" onclick="switch_place('map')">Map</p>
+<hr>
+<span id="corn_inv" onclick="plant('corn')" style="font-size: 13px; display: none;"> <wrap> Corn - seeds: </wrap> <wrap id="corn_seeds_n">0</wrap> <wrap>, crops: </wrap> <wrap id="corn_n2">0</wrap> <br><br></span>
+
+<span id="tomato_inv" onclick="plant('tomato')" style="font-size: 13px; display: none;"> <wrap>Tomato - seeds: </wrap> <wrap id="tomato_seeds_n">0</wrap> <wrap>, crops: </wrap> <wrap id="tomato_n2">0</wrap> <br><br></span>
+</div>
+
+<div style="clear: both; width: 84%;">
+<a href="about.html" target="_blank">About</a>
+</div>
+
+</body>
+</html>
