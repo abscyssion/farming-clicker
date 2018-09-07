@@ -85,3 +85,17 @@ body
 	float: left;
 	padding-left: 32px;
 }
+
+.star_img
+{
+	position: relative;
+	display: inline-block;
+	padding-left: 200px;
+}
+
+.star
+{
+	position:absolute;
+	right: 12px;
+	bottom: 17px;
+}
