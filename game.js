@@ -4,15 +4,15 @@ CODED BY: kicuu_
 
 */
 
-window.onload=function(){alert("Welcome to the Farming Clicker! Please don't mute alerts.")}
+window.onload=function(){alert("Welcome to the Farming Clicker! Please don't mute alerts.");}
 
 {
-let growing=0;
+let growing=false;
 function grow(name, time, yields)
 {
-	if(growing==0)
+	if(growing==false)
 	{
-	growing = 1;
+	growing = true;
 	setTimeout(function()
 	{
 		eval("plants."+name+"-=1;");
@@ -28,8 +28,15 @@ function grow(name, time, yields)
 		}
 		else if (rand < 70 + 20 + 10) {
 		eval("crops_high."+name+"=+"+yields);
-		} 
-		growing=0
+		}
+		
+		document.getElementById(name+"_n").innerHTML = eval("crops."+name);
+		document.getElementById(name+"_n2").innerHTML = eval("crops."+name)+eval("crops_med."+name)+eval("crops_high."+name);
+		document.getElementById(name+"_med").innerHTML = eval("crops_med."+name);
+		document.getElementById(name+"_high").innerHTML = eval("crops_high."+name);
+		document.getElementById(name+"_plant_n").innerHTML = eval("plants."+name);
+		
+		growing=false
 		
 	},time)
 }
@@ -53,8 +60,8 @@ var random = Math.floor(Math.random() * 15) + 10;
 var score = 0;
 var map = ["Shop"]
 var mapp = "Places: ";
-var refresh_map=0;
-var i_a=0;
+var refresh_map = false;
+var i_a = 0;
 //Functions
 
 //Switching
@@ -63,23 +70,13 @@ function switch_place(a)
 	switch(a)
 	{
 	case "farm":
-	document.getElementById("farm_page").style.display = "inline";
 	document.getElementById("shop_page").style.display = "none";
 	document.getElementById("map_page").style.display = "none";
+	document.getElementById("orchard_page").style.display = "none";
+	
+	document.getElementById("farm_page").style.display = "inline";
 	
 	document.getElementById("farm_button").setAttribute("class", "nav_button_active");
-	
-	
-	break;
-	
-	case "shop":
-	document.getElementById("map_page").style.display = "none";
-	document.getElementById("shop_page").style.display = "inline";
-	break;
-	
-	case "orchard":
-	document.getElementById("map_page").style.display = "none";
-	document.getElementById("orchard_page").style.display = "block";
 	break;
 
 	case "map":
@@ -91,10 +88,19 @@ function switch_place(a)
 	
 	document.getElementById("farm_button").setAttribute("class", "nav_button");
 	break;
-	}
 	
 	
 	
+	case "shop":
+	document.getElementById("map_page").style.display = "none";
+	document.getElementById("shop_page").style.display = "inline";
+	break;
+	
+	case "orchard":
+	document.getElementById("map_page").style.display = "none";
+	document.getElementById("orchard_page").style.display = "inline";
+	break;
+}
 }
 
 //Add to map array
@@ -102,7 +108,7 @@ function add_to_map(val)
 {
 	map.push(val);
 	document.getElementById(val.toLowerCase()+"_button").style.display = "inline";
-	refresh_map=0;
+	refresh_map=false;
 }
 
 //Shop
@@ -133,6 +139,7 @@ function buy(price, name)
 	money-=price;
 	let seed_string="seeds."+name;
 	eval(seed_string+"+="+"1;");
+	document.getElementById(name+"_seeds_n").innerHTML = eval("seeds."+name);
 	}
 }
 
@@ -145,7 +152,8 @@ function sell(price, name)
 	how_many=prompt("How many normal crops would you like to sell?", eval("crops."+name));
 	
 	eval("money+="+how_many+"*price;");
-	eval("crops."+name+"-="+how_many);	
+	eval("crops."+name+"-="+how_many);
+	document.getElementById(name+"_n").innerHTML = eval("crops."+name);
 	}
 	
 	if(eval("crops_med."+name+">0;")){
@@ -153,6 +161,7 @@ function sell(price, name)
 	
 	eval("money+="+how_many+"*price*1.2;");
 	eval("crops_med."+name+"-="+how_many);	
+	document.getElementById(name+"_med").innerHTML = eval("crops_med."+name);
 	}
 	
 	if(eval("crops_high."+name+">0;")){
@@ -160,9 +169,10 @@ function sell(price, name)
 	
 	eval("money+="+how_many+"*price*1.8;");
 	eval("crops_high."+name+"-="+how_many);
+	document.getElementById(name+"_high").innerHTML = eval("crops_high."+name);
 	}
 	
-	how_many=0;
+	document.getElementById(name+"_n2").innerHTML = eval("crops."+name)+eval("crops_med."+name)+eval("crops_high."+name);
 }
 }
 
@@ -170,52 +180,64 @@ function sell(price, name)
 {
 let how_many;
 
-function plant(a)
+function plant(name)
 {
 	if(document.getElementById("farm_page").style.display == "inline")
 	{
-	how_many=prompt("How many would you like to plant?", eval("seeds."+a));
-	if(eval("seeds."+a+"-how_many>=0"))
+	how_many=prompt("How many would you like to plant?", eval("seeds."+name));
+	if(eval("seeds."+name+"-how_many>=0"))
 	{
-	if(how_many!=null){document.getElementById(a+"_section").style.display = "block";}
-	eval("plants."+a+"+=Number(how_many);");
-	eval("seeds."+a+"-=Number(how_many);");
+	if(how_many!=null){document.getElementById(name+"_section").style.display = "block";}
+	eval("plants."+name+"+=Number(how_many);");
+	eval("seeds."+name+"-=Number(how_many);");
 	how_many=0;
+	document.getElementById(name+"_plant_n").innerHTML = eval("plants."+name);
+	document.getElementById(name+"_seeds_n").innerHTML = eval("seeds."+name);
 	}
 	else
 	{
 	alert("You don't have enough seeds!")
 	}
-	}	
+	}
+
 }
 }
+
 //Misc.
 
 
-var corn_growing=0;
-var tomato_growing=0;
-var have_m1 = 0;
 
-//Refreshing html
+
+{
+	
+let a = true;
+let have_m1 = false;
+
+
 setInterval(function()
 {
+//Misc.
+if(a==true&&document.getElementById("orchard_page").style.display == "inline")
+{
+alert("Congratulations! Looks like you found way to the old orchard. Come see me in shop when you accumulate enough money to buy a tree sapling.");
+a=false;
+}
+
+	
+//Refreshing html
 document.getElementById("money_n").innerHTML = money;
 document.getElementById("score_n").innerHTML = score;
 	
-document.getElementById("corn_seeds_n").innerHTML = seeds.corn;
-document.getElementById("corn_plant_n").innerHTML = plants.corn;
-document.getElementById("corn_n").innerHTML = crops.corn;
-document.getElementById("corn_n2").innerHTML = crops.corn+crops_med.corn+crops_high.corn;
-document.getElementById("corn_med").innerHTML = crops_med.corn;
-document.getElementById("corn_high").innerHTML = crops_high.corn;
 
+
+/*
 document.getElementById("tomato_seeds_n").innerHTML = seeds.tomato;
 document.getElementById("tomato_plant_n").innerHTML = plants.tomato;
 document.getElementById("tomato_n").innerHTML = crops.tomato;
 document.getElementById("tomato_n2").innerHTML = crops.tomato+crops_med.tomato+crops_high.tomato;
 document.getElementById("tomato_med").innerHTML = crops_med.tomato;
 document.getElementById("tomato_high").innerHTML = crops_high.tomato;
-
+*/
 
 if(score>=7.5)
 {
@@ -224,22 +246,25 @@ if(score>=7.5)
 }
 
 
-if(refresh_map==0)
+if(refresh_map==false)
 {
 for(i_a; i_a < map.length; i_a++)
 {
 	console.log("Map updated.");
-	mapp += map[i_a]+",";
+	if(map.length>1){mapp += ", ";}
+	mapp += map[i_a];
+	console.log(mapp);
 }
 document.getElementById("map").setAttribute("data-title",mapp);
-refresh_map=1;
+refresh_map=true;
 }
 
-if(have_m1==0&&score>=random)
+if(have_m1==false&&score>=random)
 {
+	alert("You've found map fragment containing path to the old orchard!")
 	console.log("First map fragment obtained.");
 	add_to_map("Orchard");
-	have_m1=1;
+	have_m1=true;
 }
 
 //Growing
@@ -249,5 +274,5 @@ if(plants.tomato>0){grow("tomato",17500,7.5);}
 //Inventory
 	if(seeds.corn>0){document.getElementById("corn_inv").style.display = "block";}
 	if(seeds.tomato>0){document.getElementById("tomato_inv").style.display = "block";}
-}, 1)
-
+}, 0)
+}
